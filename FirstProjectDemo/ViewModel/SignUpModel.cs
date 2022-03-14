@@ -19,3 +19,4 @@ namespace FirstProjectDemo.ViewModel
         public string Gender { get; set; }
     }
 }
+    

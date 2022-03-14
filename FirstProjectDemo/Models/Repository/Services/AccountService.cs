@@ -11,7 +11,7 @@ namespace FirstProjectDemo.Models.Repository.Services
         public AccountService()
         {
             dbContext = new ProjectDbContext();
-
+           
         }
         public SignInEnum SignIn(SignInModel model)
         {
@@ -35,7 +35,7 @@ namespace FirstProjectDemo.Models.Repository.Services
                 }
             }
             else
-            {
+        {
                 return SignInEnum.WrongCrendentials;
             }
         }
