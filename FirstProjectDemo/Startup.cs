@@ -1,3 +1,7 @@
+using FirstProjectDemo.Models;
+using FirstProjectDemo.Models.Repository.Interface;
+using FirstProjectDemo.Models.Repository.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +28,9 @@ namespace FirstProjectDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            DbConnection.Connectionstr = Configuration.GetConnectionString("default");
+            services.AddTransient<IUsers, AccountService>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +50,7 @@ namespace FirstProjectDemo
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
