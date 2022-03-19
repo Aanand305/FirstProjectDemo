@@ -7,5 +7,6 @@ namespace FirstProjectDemo.Models.Repository.Interface
     {
         SignInEnum SignIn(SignInModel model);
         SignUpEnum SignUp(SignUpModel model);
+        bool VarifyAccount(string otp);
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
+
 namespace FirstProjectDemo.Controllers
 {
     public class AccountController : Controller
@@ -79,6 +80,57 @@ namespace FirstProjectDemo.Controllers
 
         public IActionResult Register()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(SignUpModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var result = userservice.SignUp(model);
+                if(result==SignUpEnum.Success)
+                {
+                    return RedirectToAction("VarifyAccount");
+                }
+                else if(result==SignUpEnum.EmailExist)
+                {
+                    ModelState.AddModelError(string.Empty, "Email already Exist, please use another Email !!");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Something Went Wrong");
+                }
+
+            }
+            return View(model);
+
+        }
+
+        public IActionResult VarifyAccount()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult VarifyAccount(string otp)
+        {
+            if(otp!=null)
+            {
+                if(userservice.VarifyAccount(otp))
+                {
+                    return RedirectToAction("Login");
+
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Please Enter Correct OTP !");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Please Enter OTP !");
+            }
             return View();
         }
 

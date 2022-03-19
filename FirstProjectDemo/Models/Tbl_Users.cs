@@ -13,7 +13,7 @@ namespace FirstProjectDemo.Models
         public string Profile_img { get; set; }
         public bool IsActive { get; set; }
         public bool IsVarified { get; set; }
-        public DateTime Created_On { get; set; }
-        public DateTime Updated_On { get; set; }
+        public DateTime? Created_On { get; set; }
+        public DateTime? Updated_On { get; set; }
     }
 }

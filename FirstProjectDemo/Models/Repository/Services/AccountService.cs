@@ -59,8 +59,19 @@ namespace FirstProjectDemo.Models.Repository.Services
                     Gender = model.Gender,
                 };
                 dbContext.Tbl_Users.Add(user);
+                string otp = GenerateOTP();
+                SendMail(model.Email, otp);
+                var VAccount = new VarifyAccount()
+                {
+                    Otp = otp,
+                    UserId = model.Email,
+                    Sendtime = DateTime.Now,
+                };
+                dbContext.VarifyAccount.Add(VAccount);
                 dbContext.SaveChanges();
+                return SignUpEnum.Success;
             }
+            return SignUpEnum.Failure;
             
         }
 
@@ -68,16 +79,16 @@ namespace FirstProjectDemo.Models.Repository.Services
         {
             MailMessage mail = new MailMessage();
             mail.To.Add(to);
-            mail.From = new MailAddress("");
+            mail.From = new MailAddress("developer.aanandsharma@gmail.com");
             mail.Subject = "Verify Your Account";
             string Body = $"your otp is<b>{otp}</b> <br/> thanks for choosing us";
             mail.Body = Body;
             mail.IsBodyHtml= true;
             SmtpClient smtp = new SmtpClient();
-            smtp.Host = "";
+            smtp.Host = "smtp.gmail.com";
             smtp.Port = 587;
             smtp.UseDefaultCredentials=false;
-            smtp.Credentials = new System.Net.NetworkCredential("demo3400@gmail.com", "your password");
+            smtp.Credentials = new System.Net.NetworkCredential("developer.aanandsharma@gmail.com", "a7027827308");
             smtp.EnableSsl = true;
             smtp.Send(mail);
 
@@ -87,8 +98,29 @@ namespace FirstProjectDemo.Models.Repository.Services
         {
             var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             var random = new Random();
-            var list = new Enumerable.Repeat(0, 8).select(x => chars[random.next(chars.length)]);
+            var list = Enumerable.Repeat(0, 8).Select(x => chars[random.Next(chars.Length)]);
             var r = string.Join("", list);
+            return r;
+        }
+
+        public bool VarifyAccount(string otp)
+        {
+            if(dbContext.VarifyAccount.Any(e=>e.Otp==otp))
+            {
+                var acc=dbContext.VarifyAccount.SingleOrDefault(e=>e.Otp==otp);
+                var user=dbContext.Tbl_Users.SingleOrDefault(e=>e.Email==acc.UserId);
+                user.IsVarified=true;
+                user.IsActive=true;
+                dbContext.VarifyAccount.Remove(acc);
+                dbContext.Tbl_Users.Update(user);
+                dbContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
     }
 }
