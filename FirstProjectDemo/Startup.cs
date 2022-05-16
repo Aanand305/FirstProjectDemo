@@ -1,6 +1,7 @@
 using FirstProjectDemo.Models;
 using FirstProjectDemo.Models.Repository.Interface;
 using FirstProjectDemo.Models.Repository.Services;
+using FirstProjectDemo.ViewModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +31,10 @@ namespace FirstProjectDemo
             services.AddControllersWithViews();
             DbConnection.Connectionstr = Configuration.GetConnectionString("default");
             services.AddTransient<IUsers, AccountService>();
+            services.AddTransient<GenericInterface<BookWithAuthorViewModel>,BookService>();
+            services.AddTransient<IBooks, BookService>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

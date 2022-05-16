@@ -1,0 +1,92 @@
+﻿
+@{
+    
+}
+
+<div class="content-wrapper">
+    <div>
+        <button>Add Book</button>
+    </div><br />
+    <div class="container">
+        <table class="table table-bordered" id="tbl_books">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Published</th>
+                    <th>Author</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function()
+    {
+        LoadBooks();
+    })
+
+    function LoadBooks()
+    {
+        
+        $.get('@Url.Action("GetBooks","Book")',function(response)
+    {
+        console.log(response)
+        $("#tbl_books").DataTable({
+            data:response,
+            columns:[
+                {data:"id"},
+                {data:"title"},
+                {data:"price"},
+                {data:"quantity"},
+                {data:"published_On"},
+                {data:"authorName"},
+                {data:"authorMobile", render: function(authorMobile)
+                {
+                    return "+91-" + authorMobile
+                }
+                },
+                {data:"authorEmail"},
+                {data:"id",render:function(id)
+                {
+                    return "<a href='#' onclick=deleteBook("+id+")><i class='fa fa-trash text-danger'></i></a>"
+                }},
+            ]
+        })
+    })
+    }
+
+    function deleteBook(id)
+    {
+        if(confirm("Are you sure to remove this book"))
+        {
+            $.post('@Url.Action("DeleteBooks","Book")',{id:id},
+            function(response)
+            {
+                console.log(response)
+                if(response.ok)
+                {
+                    $("#tbl_books").DataTable().destroy()
+                    LoadBooks();
+                }
+            })
+        }
+    }
+</script>
+
+
+
+
+       
+
+
+

@@ -25,6 +25,16 @@
   <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="~/plugins/summernote/summernote-bs4.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Datatable -->
+  <link rel="stylesheet" href="~/Datatable/datatables.css" />
+  <!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Databale -->
+<script src="Datatable/datatables.js"></script>
+  
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -46,6 +56,12 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a class="nav-link btn-outline-light" asp-action="SignOut" asp-controller="Account">LogOut</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a class="nav-link btn-outline-light" asp-action="Index" asp-controller="Home">Dashboard</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a class="nav-link btn-outline-light" asp-action="Index" asp-controller="Book">BookDetails</a>
       </li>
     </ul>
 
@@ -83,7 +99,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <img src="~/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Brad Diesel
@@ -99,7 +115,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="~/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   John Pierce
@@ -870,8 +886,7 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+
 <!-- jQuery UI 1.11.4 -->
 <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
